@@ -10,7 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Api(tags = "Todos")
 @RestController
@@ -30,7 +33,7 @@ public class TodoController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addTodoByUser(@PathVariable String user, @RequestBody Todo todo) {
         service.addTodoByUser(todo, user);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(URI.create(format("/%s/todo/%d", user, todo.getId()))).build();
     }
 
     @ApiOperation(value = "Update todo by id")
