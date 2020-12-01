@@ -13,7 +13,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity(name = "TODO")
 public class Todo {
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

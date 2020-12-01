@@ -32,19 +32,26 @@ public class TodoService {
 
 
     public void addTodoByUser(Todo todo, Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty())
-            throw new ResourceNotFoundException(format("User with id %d does not exists", userId));
-
-        todo.setUser(user.get());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(format("User with Id %d does not exists", userId)));
+        todo.setUser(user);
         todoRepository.save(todo);
     }
 
     public void updateTodo(long id, Todo updatedTodo) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(format("Topic with Id %d does not exists", id)));
 
+        todo.setDescription(updatedTodo.getDescription());
+        todo.setDone(updatedTodo.isDone());
+        todo.setTargetDate(updatedTodo.getTargetDate());
+        todoRepository.save(todo);
     }
 
     public void deleteTodo(long id) {
+        todoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(format("Topic with Id %d does not exists", id)));
 
+        todoRepository.deleteById(id);
     }
 }
