@@ -31,9 +31,9 @@ public class TodoController {
 
     @ApiOperation(value = "Add todo by user")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addTodoByUser(@PathVariable String user, @RequestBody Todo todo) {
-        service.addTodoByUser(todo, user);
-        return ResponseEntity.created(URI.create(format("/%s/todo/%d", user, todo.getId()))).build();
+    public ResponseEntity<?> addTodoByUser(@PathVariable Long userId, @RequestBody Todo todo) {
+        service.addTodoByUser(todo, userId);
+        return ResponseEntity.created(URI.create(format("/%d/todo", userId))).build();
     }
 
     @ApiOperation(value = "Update todo by id")
