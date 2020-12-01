@@ -25,8 +25,8 @@ public class TodoController {
 
     @ApiOperation(value = "Get all TODOs by user")
     @GetMapping
-    public List<Todo> getTodosByUser(@PathVariable String user) {
-        return service.getTodosByUsername(user);
+    public List<Todo> getTodosByUser(@PathVariable Long userId) {
+        return service.getTodosByUserId(userId);
     }
 
     @ApiOperation(value = "Add todo by user")

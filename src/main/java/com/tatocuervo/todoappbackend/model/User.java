@@ -1,12 +1,16 @@
 package com.tatocuervo.todoappbackend.model;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "USERS")
-@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
