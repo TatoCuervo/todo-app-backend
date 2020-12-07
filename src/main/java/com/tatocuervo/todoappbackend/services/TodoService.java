@@ -2,7 +2,7 @@ package com.tatocuervo.todoappbackend.services;
 
 import com.tatocuervo.todoappbackend.common.exception.ResourceNotFoundException;
 import com.tatocuervo.todoappbackend.model.Todo;
-import com.tatocuervo.todoappbackend.model.User;
+import com.tatocuervo.todoappbackend.model.AppUser;
 import com.tatocuervo.todoappbackend.repositories.TodoRepository;
 import com.tatocuervo.todoappbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,18 @@ public class TodoService {
     private UserRepository userRepository;
 
     public List<Todo> getTodosByUserId(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<AppUser> user = userRepository.findById(userId);
         if (user.isEmpty())
             throw new ResourceNotFoundException(format("User with id %d does not exists", userId));
 
-        return todoRepository.findAllByUserId(userId);
+        return todoRepository.findAllByAppUserId(userId);
     }
 
 
     public void addTodoByUser(Todo todo, Long userId) {
-        User user = userRepository.findById(userId)
+        AppUser appUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(format("User with Id %d does not exists", userId)));
-        todo.setUser(user);
+        todo.setAppUser(appUser);
         todoRepository.save(todo);
     }
 

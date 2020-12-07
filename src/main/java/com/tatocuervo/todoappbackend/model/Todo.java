@@ -20,7 +20,7 @@ public class Todo {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private User user;
+    private AppUser appUser;
 
     private String description;
 
