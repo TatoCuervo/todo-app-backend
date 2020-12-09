@@ -2,6 +2,7 @@ package com.tatocuervo.todoappbackend.controllers;
 
 import com.tatocuervo.todoappbackend.common.exception.InvalidUserCredentialsException;
 import com.tatocuervo.todoappbackend.common.jwt.JwtUtil;
+import com.tatocuervo.todoappbackend.common.security.user.CurrentUser;
 import com.tatocuervo.todoappbackend.dto.AuthenticationRequest;
 import com.tatocuervo.todoappbackend.dto.AuthenticationResponse;
 import com.tatocuervo.todoappbackend.routes.Routes;
@@ -40,7 +41,7 @@ public class AuthController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
         // generate jwt token
-        String jwt = jwtUtil.generateToken(userDetails);
+        String jwt = jwtUtil.generateToken((CurrentUser) userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }

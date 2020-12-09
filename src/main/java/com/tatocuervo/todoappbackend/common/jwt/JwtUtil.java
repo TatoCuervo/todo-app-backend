@@ -1,5 +1,6 @@
 package com.tatocuervo.todoappbackend.common.jwt;
 
+import com.tatocuervo.todoappbackend.common.security.user.CurrentUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,7 +8,6 @@ import io.jsonwebtoken.impl.DefaultClock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -32,10 +32,11 @@ public class JwtUtil {
     @Value("#{new Double('${jwt.expiration.time}')}")
     private long expirationTime;
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CurrentUser currentUser) {
         logger.debug("Generate JWT token");
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        claims.put("userId", currentUser.getUserId());
+        return createToken(claims, currentUser.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {

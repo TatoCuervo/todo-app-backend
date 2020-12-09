@@ -1,12 +1,12 @@
 package com.tatocuervo.todoappbackend.common.security;
 
+import com.tatocuervo.todoappbackend.common.security.user.CurrentUser;
 import com.tatocuervo.todoappbackend.model.AppUser;
 import com.tatocuervo.todoappbackend.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,6 +39,8 @@ public class JwtUserDetailService implements UserDetailsService {
         }
 
         AppUser appUser = optional.get();
-        return new User(appUser.getName(), appUser.getPassword(), new ArrayList<SimpleGrantedAuthority>());
+        CurrentUser currentUser =  new CurrentUser(appUser.getName(), appUser.getPassword(), new ArrayList<SimpleGrantedAuthority>());
+        currentUser.setUserId(appUser.getId());
+        return currentUser;
     }
 }

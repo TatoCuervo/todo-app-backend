@@ -14,6 +14,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = InvalidUserCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidUserCredentialsException(InvalidUserCredentialsException exception) {
+        return buildResponseEntity(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
     private ResponseEntity<ErrorResponse> buildResponseEntity(String message, HttpStatus status) {
         ErrorResponse errorMessage = new ErrorResponse(message);
         return new ResponseEntity<>(errorMessage, status);
