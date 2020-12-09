@@ -17,6 +17,10 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 
+/**
+ * Implements UserDetailsService to perform user validation
+ */
+
 @Service
 public class JwtUserDetailService implements UserDetailsService {
     Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -15,15 +15,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+/**
+ * JWT Token utils
+ */
+
 @Component
 public class JwtUtil {
 
+    public static final String JWT_TOKEN_PREFIX = "Bearer ";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("jwt.secret")
     private String secret;
 
-    @Value("jwt.expiration.time")
+    @Value("#{new Double('${jwt.expiration.time}')}")
     private long expirationTime;
 
     public String generateToken(UserDetails userDetails) {

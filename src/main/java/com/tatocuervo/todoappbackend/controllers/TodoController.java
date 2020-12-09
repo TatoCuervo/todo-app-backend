@@ -6,6 +6,7 @@ import com.tatocuervo.todoappbackend.model.Todo;
 import com.tatocuervo.todoappbackend.routes.Routes;
 import com.tatocuervo.todoappbackend.services.TodoService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
@@ -30,12 +31,14 @@ public class TodoController {
     private ConversionService conversionService;
 
     @ApiOperation(value = "Get all TODOs by user")
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     @GetMapping
     public List<Todo> getTodosByUser(@PathVariable Long userId) {
         return service.getTodosByUserId(userId);
     }
 
     @ApiOperation(value = "Add todo by user")
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addTodoByUser(@PathVariable Long userId, @RequestBody CreateTodoRequest createTodoRequest) {
         service.addTodoByUser(conversionService.convert(createTodoRequest, Todo.class), userId);
@@ -43,6 +46,7 @@ public class TodoController {
     }
 
     @ApiOperation(value = "Update todo by id")
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     @PatchMapping(path = "/{id}")
     public ResponseEntity<Void> updateTodo(@PathVariable long id, @RequestBody PatchTodoRequest patchTodoRequest) {
         service.updateTodo(id, conversionService.convert(patchTodoRequest, Todo.class));
@@ -50,6 +54,7 @@ public class TodoController {
     }
 
     @ApiOperation(value = "Delete todo by id")
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer jwt_token")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteTodo(@PathVariable long id) {
         service.deleteTodo(id);
