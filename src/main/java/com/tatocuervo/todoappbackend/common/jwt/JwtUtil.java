@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -14,8 +16,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-
 public class JwtUtil {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("jwt.secret")
     private String secret;
@@ -24,6 +27,7 @@ public class JwtUtil {
     private long expirationTime;
 
     public String generateToken(UserDetails userDetails) {
+        logger.debug("Generate JWT token");
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails.getUsername());
     }
